@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+  app:
+    image: webdevops/php-apache-dev:7.2
+    ports:
+      - "10090:80"
+    depends_on:
+      - db
+    environment:
+      WEB_DOCUMENT_ROOT: /srv/public
+      WEB_DOCUMENT_INDEX: index.php
+      PHP_DATE_TIMEZONE: "UTC"
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: test_books
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "10091:3306"
