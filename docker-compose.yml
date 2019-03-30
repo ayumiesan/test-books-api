@@ -1,10 +1,10 @@
-version: "3.7"
+version: "3.5"
 
 services:
   app:
     image: webdevops/php-apache-dev:7.2
     ports:
-      - "10090:80"
+      - "80:80"
     depends_on:
       - db
     environment:
@@ -23,4 +23,4 @@ services:
       MYSQL_PASSWORD: admin
       MYSQL_ROOT_PASSWORD: root
     ports:
-      - "10091:3306"
+      - "3306:3306"
