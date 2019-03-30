@@ -6,13 +6,14 @@ namespace App\Controller;
 
 use App\Dto\BookDto;
 use App\Entity\Book;
+use App\Form\BookType;
 use App\Manager\BookManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\View\View;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\ConstraintViolationList;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 final class BookController extends AbstractFOSRestController
 {
@@ -25,18 +26,22 @@ final class BookController extends AbstractFOSRestController
 
     /**
      * @Rest\Post("/books")
-     * @ParamConverter("bookDto", converter="fos_rest.request_body")
      * @Rest\View(statusCode=201)
      *
-     * @return BookDto|View
+     * @return FormInterface|BookDto
      */
-    public function postBook(BookDto $bookDto, ConstraintViolationList $violationList)
+    public function postBook(Request $request)
     {
-        if (count($violationList)) {
-            return $this->view($violationList, Response::HTTP_BAD_REQUEST);
+        $bookDto = new BookDto();
+        $form = $this->createForm(BookType::class, $bookDto);
+
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            return $this->manager->save($bookDto);
         }
 
-        return $this->manager->save($bookDto);
+        return $form;
     }
 
     /**
@@ -61,18 +66,21 @@ final class BookController extends AbstractFOSRestController
 
     /**
      * @Rest\Put("/books/{id}")
-     * @ParamConverter("bookDTO", converter="fos_rest.request_body")
      * @Rest\View(statusCode=200)
      *
-     * @return BookDto|View
+     * @return FormInterface|BookDto
      */
-    public function putBook(BookDto $bookDto, Book $book, ConstraintViolationList $violationList)
+    public function putBook(Request $request, BookDto $bookDto)
     {
-        if (count($violationList)) {
-            return $this->view($violationList, Response::HTTP_BAD_REQUEST);
+        $form = $this->createForm(BookType::class, $bookDto);
+
+        $form->submit($request->request->all());
+
+        if ($form->isValid()) {
+            return $this->manager->save($bookDto);
         }
 
-        return $this->manager->save($bookDto, $book);
+        return $form;
     }
 
     /**

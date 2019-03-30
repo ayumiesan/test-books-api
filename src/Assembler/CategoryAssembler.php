@@ -7,15 +7,20 @@ namespace App\Assembler;
 use App\Dto\CategoryDto;
 use App\Entity\Category;
 use App\Factory\CategoryFactory;
+use App\Repository\CategoryRepository;
 
 final class CategoryAssembler
 {
-    public function read(CategoryDto $categoryDto, ?Category $category = null): Category
-    {
-        if (!$category) {
-            $category = CategoryFactory::getNew();
-        }
+    private $categoryRepository;
 
+    public function __construct(CategoryRepository $categoryRepository)
+    {
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    public function read(CategoryDto $categoryDto): Category
+    {
+        $category = $categoryDto->id ? $this->categoryRepository->find($categoryDto->id) : CategoryFactory::getNew();
         $category->setLabel($categoryDto->label);
 
         return $category;

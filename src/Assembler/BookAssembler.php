@@ -7,22 +7,22 @@ namespace App\Assembler;
 use App\Dto\BookDto;
 use App\Entity\Book;
 use App\Factory\BookFactory;
+use App\Repository\BookRepository;
 
 final class BookAssembler
 {
     private $categoryAssembler;
+    private $bookRepository;
 
-    public function __construct(CategoryAssembler $categoryAssembler)
+    public function __construct(CategoryAssembler $categoryAssembler, BookRepository $bookRepository)
     {
         $this->categoryAssembler = $categoryAssembler;
+        $this->bookRepository = $bookRepository;
     }
 
-    public function read(BookDto $bookDto, ?Book $book = null): Book
+    public function read(BookDto $bookDto): Book
     {
-        if (!$book) {
-            $book = BookFactory::getNew();
-        }
-
+        $book = $bookDto->id ? $this->bookRepository->find($bookDto->id) : BookFactory::getNew();
         $book->updateBook($bookDto->title, $bookDto->resume, $bookDto->score, $this->categoryAssembler->readMultiple($bookDto->categories));
 
         return $book;

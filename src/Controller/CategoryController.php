@@ -66,13 +66,13 @@ final class CategoryController extends AbstractFOSRestController
      *
      * @return CategoryDto|View
      */
-    public function putCategory(CategoryDto $categoryDto, Category $category, ConstraintViolationList $violationList)
+    public function putCategory(CategoryDto $categoryDto, ConstraintViolationList $violationList)
     {
         if (count($violationList)) {
             return $this->view($violationList, Response::HTTP_BAD_REQUEST);
         }
 
-        return $this->manager->save($categoryDto, $category);
+        return $this->manager->save($categoryDto);
     }
 
     /**
