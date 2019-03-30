@@ -32,6 +32,7 @@ final class CategoryAssembler
     public function write(Category $category): CategoryDto
     {
         $categoryDto = new CategoryDto();
+        $categoryDto->id = $category->getId();
         $categoryDto->label = $category->getLabel();
 
         return $categoryDto;
