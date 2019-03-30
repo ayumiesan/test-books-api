@@ -10,7 +10,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
-final class BookUniqueTitleValidator extends ConstraintValidator
+final class ValidScoreValidator extends ConstraintValidator
 {
     private $bookManager;
 
@@ -31,10 +31,9 @@ final class BookUniqueTitleValidator extends ConstraintValidator
             return;
         }
 
-        $bookId = $bookDto ? $bookDto->id : null;
-        $books = $this->bookManager->findBooksWithTitleButThis($value, $bookId);
+        $decimal = $value - floor($value);
 
-        if ($books) {
+        if ($value < 0 || $value > 10 || ($decimal <> 0 && $decimal <> 0.5)) {
             $this->context
                 ->buildViolation($constraint->message)
                 ->addViolation()

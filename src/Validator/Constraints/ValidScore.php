@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * @Annotation
  */
-final class BookUniqueTitle extends Constraint
+final class ValidScore extends Constraint
 {
-    public $message = 'Ce titre existe déjà';
+    public $message = 'Un chiffre après la virgule autorisé, multiple de 0.5';
 }

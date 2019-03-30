@@ -22,7 +22,8 @@ final class BookDto
 
     /**
      * @Assert\NotBlank()
-     * @Assert\Type(type="float")
+     * @Assert\Type(type="float").
+     * @CustomAssert\ValidScore()
      */
     public $score;
 
