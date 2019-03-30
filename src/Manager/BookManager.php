@@ -25,6 +25,9 @@ final class BookManager
         return $this->assembler->write($book);
     }
 
+    /**
+     * @return BookDto[]
+     */
     public function getList(): array
     {
         return $this->assembler->writeMultiple($this->repository->findAll());

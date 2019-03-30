@@ -28,64 +28,70 @@ final class BookController extends AbstractFOSRestController
      * @Route("/books", name="book_post", methods={"POST"})
      * @ParamConverter("bookDto", converter="fos_rest.request_body")
      * @Rest\View(statusCode=201)
+     *
+     * @param BookDto $bookDto
+     * @param ConstraintViolationList $violationList
+     * @return BookDto|View
      */
-    public function postBook(BookDto $bookDto, ConstraintViolationList $violationList): View
+    public function postBook(BookDto $bookDto, ConstraintViolationList $violationList)
     {
         if (count($violationList)) {
             return $this->view($violationList, Response::HTTP_BAD_REQUEST);
         }
 
-        $book = $this->manager->save($bookDto);
-
-        return View::create($book, Response::HTTP_CREATED);
+        return $this->manager->save($bookDto);
     }
 
     /**
      * @Route("/books", name="book_get_list", methods={"GET"})
      * @Rest\View(statusCode=200)
+     *
+     * @return BookDto[]
      */
-    public function getBooks(): View
+    public function getBooks(): array
     {
-        $books = $this->manager->getList();
-
-        return View::create($books, Response::HTTP_OK);
+        return $this->manager->getList();
     }
 
     /**
      * @Route("/books/{id}", name="book_get", methods={"GET"})
      * @Rest\View(statusCode=200)
+     *
+     * @param Book $book
+     * @return BookDto
      */
-    public function getBook(Book $book): View
+    public function getBook(Book $book): BookDto
     {
-        $bookDto = $this->manager->get($book);
-
-        return View::create($bookDto, Response::HTTP_OK);
+        return $this->manager->get($book);
     }
 
     /**
      * @Route("/books/{id}", name="book_put", methods={"PUT"})
      * @ParamConverter("bookDTO", converter="fos_rest.request_body")
      * @Rest\View(statusCode=200)
+     *
+     * @param BookDto $bookDto
+     * @param Book $book
+     * @param ConstraintViolationList $violationList
+     * @return BookDto|View
      */
-    public function putBook(BookDto $bookDto, Book $book, ConstraintViolationList $violationList): View
+    public function putBook(BookDto $bookDto, Book $book, ConstraintViolationList $violationList)
     {
         if (count($violationList)) {
             return $this->view($violationList, Response::HTTP_BAD_REQUEST);
         }
 
-        $book = $this->manager->save($bookDto, $book);
-
-        return View::create($book, Response::HTTP_OK);
+        return $this->manager->save($bookDto, $book);
     }
 
     /**
      * @Route("/books/{id}", name="book_delete", methods={"DELETE"})
      * @Rest\View(statusCode=204)
+     *
+     * @param int $id
      */
-    public function deleteBook(int $id)
+    public function deleteBook(int $id): void
     {
         $this->manager->remove($id);
-
-        return View::create([], Response::HTTP_NO_CONTENT);
     }
 }

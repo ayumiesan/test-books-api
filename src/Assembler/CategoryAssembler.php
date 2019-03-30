@@ -7,7 +7,6 @@ namespace App\Assembler;
 use App\Dto\CategoryDto;
 use App\Entity\Category;
 use App\Factory\CategoryFactory;
-use Doctrine\ORM\PersistentCollection;
 
 final class CategoryAssembler
 {
@@ -38,6 +37,10 @@ final class CategoryAssembler
         return $categoryDto;
     }
 
+    /**
+     * @param Category[]
+     * @return CategoryDto[]
+     */
     public function writeMultiple(array $categories): array
     {
         return array_map(function (Category $category) {

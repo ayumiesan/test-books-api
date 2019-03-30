@@ -25,6 +25,9 @@ final class CategoryManager
         return $this->assembler->write($category);
     }
 
+    /**
+     * @return CategoryDto[]
+     */
     public function getList(): array
     {
         return $this->assembler->writeMultiple($this->repository->findAll());

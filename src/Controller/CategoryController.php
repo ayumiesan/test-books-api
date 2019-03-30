@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Dto\CategoryDto;
 use App\Entity\Category;
 use App\Manager\CategoryManager;
 use FOS\RestBundle\Controller\Annotations as Rest;
-use FOS\RestBundle\View\View;
-use Symfony\Component\HttpFoundation\Response;
 
 final class CategoryController
 {
@@ -21,21 +20,24 @@ final class CategoryController
 
     /**
      * @Rest\Get("/categories")
+     * @Rest\View()
+     *
+     * @return CategoryDto[]
      */
-    public function getCategories(): View
+    public function getCategories(): array
     {
-        $categories = $this->manager->getList();
-
-        return View::create($categories, Response::HTTP_OK);
+        return $this->manager->getList();
     }
 
     /**
      * @Rest\Get("/categories/{id}")
+     * @Rest\View()
+     *
+     * @param Category $category
+     * @return CategoryDto
      */
-    public function getCategory(Category $category): View
+    public function getCategory(Category $category): CategoryDto
     {
-        $categoryDto = $this->manager->get($category);
-
-        return View::create($categoryDto, Response::HTTP_OK);
+        return $this->manager->get($category);
     }
 }
