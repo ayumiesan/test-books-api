@@ -37,10 +37,10 @@ final class CategoryAssembler
         return $categoryDto;
     }
 
-    public function writeMultiple(PersistentCollection $categories): array
+    public function writeMultiple(array $categories): array
     {
         return array_map(function (Category $category) {
             return $this->write($category);
-        }, $categories->toArray());
+        }, $categories);
     }
 }

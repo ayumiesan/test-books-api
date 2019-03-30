@@ -35,7 +35,7 @@ final class BookAssembler
         $bookDto->title = $book->getTitle();
         $bookDto->resume = $book->getResume();
         $bookDto->score = $book->getScore();
-        $bookDto->categories = $this->categoryAssembler->writeMultiple($book->getCategories());
+        $bookDto->categories = $this->categoryAssembler->writeMultiple($book->getCategories()->toArray());
 
         return $bookDto;
     }
