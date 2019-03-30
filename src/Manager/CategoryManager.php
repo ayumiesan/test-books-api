@@ -32,4 +32,22 @@ final class CategoryManager
     {
         return $this->assembler->writeMultiple($this->repository->findAll());
     }
+
+    public function save(CategoryDto $categoryDTO, ?Category $category = null): CategoryDto
+    {
+        $category = $this->assembler->read($categoryDTO, $category);
+
+        $this->repository->save($category);
+
+        return $this->assembler->write($category);
+    }
+
+    public function remove(int $id): void
+    {
+        $category = $this->repository->find($id);
+
+        if ($category) {
+            $this->repository->remove($category);
+        }
+    }
 }

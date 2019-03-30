@@ -33,6 +33,11 @@ final class BookManager
         return $this->assembler->writeMultiple($this->repository->findAll());
     }
 
+    public function findBooksWithTitleButThis(string $title, ?int $id): array
+    {
+        return $this->repository->findBooksWithTitleButThis($title, $id);
+    }
+
     public function save(BookDto $bookDTO, ?Book $book = null): BookDto
     {
         $book = $this->assembler->read($bookDTO, $book);

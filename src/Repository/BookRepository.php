@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Book;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -31,5 +32,22 @@ final class BookRepository extends ServiceEntityRepository
     {
         $this->getEntityManager()->remove($book);
         $this->getEntityManager()->flush();
+    }
+
+    public function findBooksWithTitleButThis(string $title, ?int $id): array
+    {
+        $queryBuilder = $this->createQueryBuilder('b')
+            ->where('b.title = :title')
+            ->setParameter('title', $title)
+        ;
+
+        if ($id) {
+            $queryBuilder->andWhere('b.id <> :book_id');
+            $queryBuilder->setParameter('book_id', $id);
+        }
+
+        return $queryBuilder
+            ->getQuery()
+            ->getResult();
     }
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Dto;
 
+use App\Validator\Constraints as CustomAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 final class BookDto
@@ -13,6 +14,7 @@ final class BookDto
     /**
      * @Assert\NotBlank()
      * @Assert\Length(max=255)
+     * @CustomAssert\BookUniqueTitle()
      */
     public $title;
 
