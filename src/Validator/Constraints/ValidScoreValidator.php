@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Validator\Constraints;
 
-use App\Dto\BookDto;
 use App\Manager\BookManager;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Validator\Constraint;
@@ -21,9 +20,9 @@ final class ValidScoreValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        $bookDto = $this->context->getRoot();
+        $form = $this->context->getRoot();
 
-        if (!$bookDto instanceof BookDto) {
+        if (!$form instanceof Form) {
             return;
         }
 

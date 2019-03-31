@@ -21,11 +21,14 @@ final class BookUniqueTitleValidator extends ConstraintValidator
 
     public function validate($value, Constraint $constraint): void
     {
-        $bookDto = $this->context->getRoot();
+        $form = $this->context->getRoot();
 
-        if (!$bookDto instanceof BookDto) {
+        if (!$form instanceof Form) {
             return;
         }
+
+        /** @var BookDto $bookDto */
+        $bookDto = $form->getData();
 
         if (!$value) {
             return;
