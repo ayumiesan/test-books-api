@@ -12,6 +12,7 @@ use Faker\Factory as Faker;
 
 final class BookFixtures extends Fixture implements DependentFixtureInterface
 {
+    public const NB_BOOKS = 10;
     private $faker;
 
     public function __construct()
@@ -23,12 +24,13 @@ final class BookFixtures extends Fixture implements DependentFixtureInterface
     {
         $categoryList = $this->getCategories();
 
-        for ($bookNb = 0;$bookNb < 10; ++$bookNb) {
+        for ($bookNb = 1;$bookNb <= 10; ++$bookNb) {
             $categories = $this->faker->randomElements($categoryList, $this->faker->numberBetween(1, CategoryFixtures::NB_CATEGORIES));
 
             $book = new Book();
-            $book->updateBook($this->faker->word, $this->faker->sentence, $this->faker->numberBetween(0, 10), $categories);
+            $book->updateBook("titre_{$bookNb}", $this->faker->sentence, $this->faker->numberBetween(0, 10), $categories);
             $manager->persist($book);
+            $this->setReference("book_{$bookNb}", $book);
         }
 
         $manager->flush();

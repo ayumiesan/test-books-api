@@ -12,6 +12,7 @@ use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
 
 final class BookController extends AbstractFOSRestController
 {
@@ -54,7 +55,7 @@ final class BookController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Get("/books/{id}")
+     * @Route("/books/{id}", name="book_get")
      * @Rest\View(statusCode=200)
      */
     public function getBook(Book $book): BookDto

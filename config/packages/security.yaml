@@ -8,7 +8,9 @@ security:
             security: false
         main:
             anonymous: true
-
+    encoders:
+        App\Entity\User:
+            algorithm: argon2i
             # activate different ways to authenticate
 
             # http_basic: true
