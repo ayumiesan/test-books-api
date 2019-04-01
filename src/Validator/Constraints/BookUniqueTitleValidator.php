@@ -34,7 +34,7 @@ final class BookUniqueTitleValidator extends ConstraintValidator
             return;
         }
 
-        $bookId = $bookDto ? $bookDto->id : null;
+        $bookId = $bookDto ? (int) $bookDto->id : null;
         $books = $this->bookManager->findBooksWithTitleButThis($value, $bookId);
 
         if ($books) {
