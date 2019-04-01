@@ -55,7 +55,7 @@ final class BookController extends AbstractFOSRestController
     }
 
     /**
-     * @Route("/books/{id}", name="book_get")
+     * @Rest\Get("/books/{id}")
      * @Rest\View(statusCode=200)
      */
     public function getBook(Book $book): BookDto
