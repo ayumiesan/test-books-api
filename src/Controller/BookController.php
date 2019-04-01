@@ -10,9 +10,10 @@ use App\Form\BookType;
 use App\Manager\BookManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
 
 final class BookController extends AbstractFOSRestController
 {
@@ -89,5 +90,26 @@ final class BookController extends AbstractFOSRestController
     public function deleteBook(int $id): void
     {
         $this->manager->remove($id);
+    }
+
+    /**
+     * @Rest\POST("/books/{id}/share")
+     * @Rest\View(statusCode=200)
+     */
+    public function shareBook(Book $book, Request $request, Swift_Mailer $mailer): array
+    {
+        $message = (new Swift_Message('Share a book'))
+            ->setFrom('send@example.com')
+            ->setTo($request->request->get('email'))
+            ->setBody(
+                $this->renderView('emails/share-book.html.twig', [
+                    'book' => $book
+                ]),
+                'text/html'
+            )
+        ;
+        $mailer->send($message);
+
+        return ['success' => 'ok'];
     }
 }
