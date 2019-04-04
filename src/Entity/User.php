@@ -32,7 +32,7 @@ class User implements UserInterface
     private $isAdmin = false;
 
     /**
-     * @ORM\Column(name="password", type="string", length=60)
+     * @ORM\Column(name="password", type="string", length=95)
      */
     private $password;
 
